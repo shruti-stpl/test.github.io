@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxy A56 5G — Awesome, unfiltered</title>
+<style>
+  :root {
+    --ink: #241417;
+    --paper: #fbf2ee;
+    --accent: #c9873f;
+    --accent-2: #e0a5b0;
+    --muted: #8a6f6a;
+    --phone: #e7b8c4;
+    --phone-name: "Pink";
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 2rem;
+    z-index: 50;
+    background: rgba(243,242,239,0.75);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  nav .wordmark { font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; }
+  nav .wordmark span { color: var(--accent); }
+  nav .buy-btn {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  nav .buy-btn:hover { transform: scale(1.04); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    padding: 7rem 4rem 3rem;
+    gap: 2rem;
+  }
+  .hero-copy h1 {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 1.02;
+    margin: 0 0 1.1rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .hero-copy p.sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 38ch;
+    margin: 0 0 2rem;
+  }
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+  .price-row .price { font-size: 1.6rem; font-weight: 700; }
+  .price-row .from { font-size: 0.85rem; color: var(--muted); }
+
+  .cta-row { display: flex; gap: 0.8rem; }
+  .cta-primary, .cta-secondary {
+    padding: 0.9rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 8px 24px -8px rgba(201,135,63,0.55);
+  }
+  .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(201,135,63,0.65); }
+  .cta-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .cta-secondary:hover { border-color: var(--ink); }
+
+  /* ---------- PHONE ILLUSTRATION ---------- */
+  .stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+  }
+  .phone {
+    width: 230px;
+    height: 480px;
+    border-radius: 34px;
+    background: linear-gradient(160deg, var(--phone) 0%, #232327 100%);
+    position: relative;
+    box-shadow:
+      0 40px 60px -20px rgba(0,0,0,0.35),
+      inset 0 0 0 2px rgba(255,255,255,0.06);
+    transition: transform 0.15s ease-out, background 0.4s ease;
+    transform: rotateY(-8deg) rotateX(4deg);
+    cursor: grab;
+  }
+  .phone::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 27px;
+    background: radial-gradient(120% 90% at 30% 0%, #2b2b3a, #0c0c10 70%);
+  }
+  .phone .cam-block {
+    position: absolute;
+    top: 22px; left: 20px;
+    width: 62px; height: 62px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    z-index: 2;
+  }
+  .phone .cam-block .lens {
+    width: 100%; aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #4a4a55, #0a0a0c 75%);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.4);
+  }
+  .phone .screen-glow {
+    position: absolute;
+    inset: 8px;
+    border-radius: 27px;
+    background: linear-gradient(200deg, rgba(224,165,176,0.4), rgba(201,135,63,0.2) 60%, transparent 90%);
+    opacity: 0.8;
+    z-index: 1;
+  }
+  .phone .notch {
+    position: absolute;
+    top: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #050506;
+    z-index: 3;
+  }
+  .phone .label {
+    position: absolute;
+    bottom: 26px; left: 24px; right: 24px;
+    z-index: 2;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+  .phone .label .name { font-size: 1.05rem; font-weight: 700; display:block; margin-bottom:2px; }
+
+  .swatches {
+    position: absolute;
+    bottom: -3.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.7rem;
+    background: rgba(255,255,255,0.6);
+    padding: 0.5rem 0.7rem;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+  .swatch {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .swatch.active { border-color: var(--ink); transform: scale(1.12); }
+
+  /* ---------- STRIP ---------- */
+  .strip {
+    display: flex;
+    justify-content: center;
+    gap: 3.5rem;
+    flex-wrap: wrap;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .strip .stat { text-align: center; }
+  .strip .stat .num {
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .strip .stat .lbl { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* ---------- FEATURE TABS ---------- */
+  .features {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+  .features h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    margin: 0 0 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    max-width: 20ch;
+  }
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 0.6rem 1.1rem;
+    border-radius: 999px;
+    border: 1.5px solid rgba(0,0,0,0.12);
+    background: transparent;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s ease;
+  }
+  .tab-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .tab-panel {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    animation: fade 0.35s ease;
+  }
+  .tab-panel.active { display: grid; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .tab-panel h3 { font-size: 1.5rem; margin: 0 0 0.8rem; font-weight: 700; }
+  .tab-panel p { color: var(--muted); line-height: 1.6; margin: 0 0 1rem; max-width: 42ch; }
+  .tab-panel ul { padding-left: 1.1rem; margin: 0; color: var(--ink); }
+  .tab-panel li { margin-bottom: 0.4rem; }
+
+  .visual-block {
+    height: 220px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+  }
+
+  /* ---------- CAMERA SLIDER ---------- */
+  .camera-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 6rem 2rem;
+  }
+  .camera-section .inner { max-width: 1000px; margin: 0 auto; }
+  .camera-section h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin: 0 0 0.5rem; }
+  .camera-section p.lead { color: #a3a3ad; max-width: 46ch; margin: 0 0 3rem; }
+
+  .slider-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/8;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(120deg, #1c1c22, #2a2a33);
+  }
+  .slider-side {
+    position: absolute;
+    top: 0; height: 100%;
+    display: flex; align-items: flex-end;
+    padding: 1.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .side-low {
+    left: 0; width: 100%;
+    background: linear-gradient(160deg, #35353f, #1a1a1f);
+    color: #7d7d8a;
+  }
+  .side-high {
+    left: 0; width: 50%;
+    background: linear-gradient(160deg, #e0a5b0, #7a3b46);
+    color: white;
+    overflow: hidden;
+    border-right: 3px solid white;
+  }
+  .side-high span { width: 1000px; }
+  input[type=range].cam-range {
+    width: 100%;
+    margin-top: 1rem;
+    accent-color: var(--accent);
+  }
+  .cam-caption { display:flex; justify-content:space-between; font-size:0.8rem; color:#8a8a94; margin-top:0.6rem; }
+
+  /* ---------- SPEC GRID ---------- */
+  .spec-section { max-width: 1000px; margin: 0 auto; padding: 6rem 2rem; }
+  .spec-section h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin: 0 0 2.5rem; }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .spec-card {
+    background: var(--paper);
+    padding: 1.6rem;
+  }
+  .spec-card .k { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .spec-card .v { font-size: 1.15rem; font-weight: 700; }
+
+  /* ---------- FOOTER CTA ---------- */
+  .final-cta {
+    text-align: center;
+    padding: 7rem 2rem 5rem;
+  }
+  .final-cta h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+  .final-cta .cta-primary { padding: 1rem 2.2rem; font-size: 1rem; }
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 2rem; text-align: center; }
+    .hero-copy p.sub { margin-left: auto; margin-right: auto; }
+    .cta-row { justify-content: center; }
+    .price-row { justify-content: center; }
+    .stage { margin-top: 3rem; }
+    .tab-panel { grid-template-columns: 1fr; }
+    .strip { gap: 2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wordmark">Galaxy <span>A56</span></div>
+  <button class="buy-btn" onclick="document.getElementById('final').scrollIntoView({behavior:'smooth'})">Buy now</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-copy">
+    <h1>Awesome, unfiltered.</h1>
+    <p class="sub">A 6.7" 120Hz display, a 50MP camera that doesn't flinch after dark, and two days of battery that keeps up with you — not the other way around.</p>
+    <div class="price-row">
+      <span class="price">$499</span>
+      <span class="from">from · 128GB · unlocked</span>
+    </div>
+    <div class="cta-row">
+      <button class="cta-primary" onclick="document.getElementById('final').scrollIntoView({behavior:'smooth'})">Pre-order</button>
+      <button class="cta-secondary" onclick="document.getElementById('specs').scrollIntoView({behavior:'smooth'})">See full specs</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="screen-glow"></div>
+      <div class="notch"></div>
+      <div class="cam-block">
+        <div class="lens"></div>
+        <div class="lens"></div>
+        <div class="lens"></div>
+      </div>
+      <div class="label"><span class="name" id="colorName">Pink</span>128GB · 5G</div>
+    </div>
+    <div class="swatches">
+      <div class="swatch" style="background:#4b4b52" data-color="#4b4b52" data-name="Graphite"></div>
+      <div class="swatch" style="background:#6b7256" data-color="#6b7256" data-name="Olive"></div>
+      <div class="swatch active" style="background:#e7b8c4" data-color="#e7b8c4" data-name="Pink"></div>
+      <div class="swatch" style="background:#c9cad0" data-color="#c9cad0" data-name="Light Gray"></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="stat"><div class="num" data-count="120">0</div><div class="lbl">Hz refresh rate</div></div>
+  <div class="stat"><div class="num" data-count="50">0</div><div class="lbl">MP main camera</div></div>
+  <div class="stat"><div class="num" data-count="5000">0</div><div class="lbl">mAh battery</div></div>
+  <div class="stat"><div class="num" data-count="45">0</div><div class="lbl">W fast charging</div></div>
+</div>
+
+<section class="features">
+  <h2>Built around the things you actually do with a phone.</h2>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="display">Display</button>
+    <button class="tab-btn" data-tab="battery">Battery</button>
+    <button class="tab-btn" data-tab="durability">Durability</button>
+    <button class="tab-btn" data-tab="ai">Galaxy AI</button>
+  </div>
+
+  <div class="tab-panel active" data-panel="display">
+    <div>
+      <h3>A screen that stays legible outdoors</h3>
+      <p>Super AMOLED at 6.7 inches, with adaptive refresh from 60 to 120Hz so scrolling stays smooth without draining the battery when it doesn't need to.</p>
+      <ul>
+        <li>1080 × 2340 resolution, 385 ppi</li>
+        <li>Up to 1,900 nits peak brightness</li>
+        <li>HDR10+ certified</li>
+      </ul>
+    </div>
+    <div class="visual-block" style="background:linear-gradient(135deg,#e0a5b0,#a4567a);">120Hz</div>
+  </div>
+
+  <div class="tab-panel" data-panel="battery">
+    <div>
+      <h3>Charges fast, lasts longer</h3>
+      <p>A 5,000mAh battery paired with 45W wired charging — enough for a full day from a coffee break's worth of charging.</p>
+      <ul>
+        <li>5,000mAh capacity</li>
+        <li>45W fast charging</li>
+        <li>Optimized standby with AI power management</li>
+      </ul>
+    </div>
+    <div class="visual-block" style="background:linear-gradient(135deg,#c9873f,#8a5a20);">45W</div>
+  </div>
+
+  <div class="tab-panel" data-panel="durability">
+    <div>
+      <h3>Ready for whatever the day throws at it</h3>
+      <p>Gorilla Glass Victus+ front and back with an aluminum frame, plus IP67 water and dust resistance.</p>
+      <ul>
+        <li>IP67 rated (up to 1m for 30 min)</li>
+        <li>Gorilla Glass Victus+, front and back</li>
+        <li>Aluminum frame</li>
+      </ul>
+    </div>
+    <div class="visual-block" style="background:linear-gradient(135deg,#4b4b52,#1a1a1e);">IP67</div>
+  </div>
+
+  <div class="tab-panel" data-panel="ai">
+    <div>
+      <h3>AI that does the tedious parts</h3>
+      <p>On-device tools clean up photos, summarize long threads, and translate conversations in real time — no extra apps required.</p>
+      <ul>
+        <li>Photo editing and object removal</li>
+        <li>Live translation in calls and messages</li>
+        <li>Circle to Search</li>
+      </ul>
+    </div>
+    <div class="visual-block" style="background:linear-gradient(135deg,#e7b8c4,#a4567a);">AI</div>
+  </div>
+</section>
+
+<section class="camera-section">
+  <div class="inner">
+    <h2>See more, even after the sun's gone down.</h2>
+    <p class="lead">Drag the slider to compare a standard shot against the A56's low-light processing.</p>
+    <div class="slider-wrap">
+      <div class="slider-side side-low"><span>Standard</span></div>
+      <div class="slider-side side-high" id="sliderHigh"><span>Night mode</span></div>
+    </div>
+    <input type="range" class="cam-range" min="0" max="100" value="50" id="camRange">
+    <div class="cam-caption"><span>Standard shot</span><span>Night mode processing</span></div>
+  </div>
+</section>
+
+<section class="spec-section" id="specs">
+  <h2>Full specs</h2>
+  <div class="spec-grid">
+    <div class="spec-card"><div class="k">Display</div><div class="v">6.7" Super AMOLED, 120Hz</div></div>
+    <div class="spec-card"><div class="k">Processor</div><div class="v">Exynos 1580</div></div>
+    <div class="spec-card"><div class="k">RAM / Storage</div><div class="v">8–12GB / 128–256GB</div></div>
+    <div class="spec-card"><div class="k">Rear cameras</div><div class="v">50MP + 12MP + 5MP</div></div>
+    <div class="spec-card"><div class="k">Front camera</div><div class="v">12MP</div></div>
+    <div class="spec-card"><div class="k">Battery</div><div class="v">5,000mAh, 45W charging</div></div>
+    <div class="spec-card"><div class="k">Build</div><div class="v">Glass front/back, aluminum frame</div></div>
+    <div class="spec-card"><div class="k">Water resistance</div><div class="v">IP67</div></div>
+    <div class="spec-card"><div class="k">OS</div><div class="v">Android 15, One UI 7</div></div>
+    <div class="spec-card"><div class="k">Weight</div><div class="v">198g</div></div>
+    <div class="spec-card"><div class="k">Connectivity</div><div class="v">5G, dual SIM + eSIM</div></div>
+    <div class="spec-card"><div class="k">Colors</div><div class="v">Graphite, Olive, Pink, Light Gray</div></div>
+  </div>
+</section>
+
+<section class="final-cta" id="final">
+  <h2>Your next phone,<br>ready when you are.</h2>
+  <button class="cta-primary" onclick="alert('This is a demo page — no real order will be placed.')">Pre-order from $499</button>
+</section>
+
+<footer>
+  Demo advert page built for illustration purposes. Specifications shown reflect the Samsung Galaxy A56 5G as publicly listed by Samsung.
+</footer>
+
+<script>
+  // Color swatches
+  const phone = document.getElementById('phone');
+  const colorName = document.getElementById('colorName');
+  document.querySelectorAll('.swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      const color = sw.dataset.color;
+      colorName.textContent = sw.dataset.name;
+      phone.style.background = `linear-gradient(160deg, ${color} 0%, #232327 100%)`;
+    });
+  });
+
+  // Phone tilt on mouse move
+  const stage = document.querySelector('.stage');
+  stage.addEventListener('mousemove', (e) => {
+    const rect = stage.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    phone.style.transform = `rotateY(${-8 + x * 20}deg) rotateX(${4 - y * 16}deg)`;
+  });
+  stage.addEventListener('mouseleave', () => {
+    phone.style.transform = 'rotateY(-8deg) rotateX(4deg)';
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+    });
+  });
+
+  // Camera before/after slider
+  const camRange = document.getElementById('camRange');
+  const sliderHigh = document.getElementById('sliderHigh');
+  camRange.addEventListener('input', () => {
+    sliderHigh.style.width = camRange.value + '%';
+  });
+
+  // Animated stat counters on scroll into view
+  const counters = document.querySelectorAll('.num');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        let current = 0;
+        const step = Math.max(1, Math.round(target / 40));
+        const tick = () => {
+          current += step;
+          if (current >= target) { el.textContent = target; return; }
+          el.textContent = current;
+          requestAnimationFrame(tick);
+        };
+        tick();
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => observer.observe(c));
+</script>
+
+<script
+  src="https://express-ai-api.srmtechsol.com/js/chatbot-widget.js?t=1789363618761"
+  data-api-key="shruti_p"
+  data-user=""
+  data-user-metadata=""
+  defer
+></script>
+
+</body>
+</html>
